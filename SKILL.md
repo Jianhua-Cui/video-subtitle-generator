@@ -24,6 +24,12 @@ brew install ffmpeg
 
 # Ubuntu / Debian
 sudo apt install ffmpeg
+
+# Windows (Chocolatey)
+choco install ffmpeg
+
+# Windows (Scoop)
+scoop install ffmpeg
 ```
 
 ## Resource requirements
@@ -47,9 +53,16 @@ Before running, confirm the user is aware of the following costs:
 pip install -r requirements.txt
 
 # Set the API key (used for translation)
+# macOS / Linux
 export OPENAI_API_KEY="your-api-key"
 export OPENAI_BASE_URL="https://openrouter.ai/api/v1"  # Optional, defaults to OpenRouter
+
+# Windows (PowerShell)
+$env:OPENAI_API_KEY="your-api-key"
+$env:OPENAI_BASE_URL="https://openrouter.ai/api/v1"
 ```
+
+> On Windows, use `python` instead of `python3` in all commands below.
 
 ### 2. Transcribe video (auto-detect language)
 
@@ -96,13 +109,14 @@ When neither `--bilingual` nor `--target-only` is specified, both are generated.
 ### 5. Run the full pipeline
 
 ```bash
+# macOS / Linux
 VIDEO_DIR="/path/to/videos" ./scripts/run.sh
 
-# Translate to English instead of Chinese
-VIDEO_DIR="/path/to/videos" TARGET_LANG=en ./scripts/run.sh
+# Windows (PowerShell)
+$env:VIDEO_DIR="C:\path\to\videos"; .\scripts\run.ps1
 ```
 
-Environment variables for `run.sh`:
+Environment variables for `run.sh` / `run.ps1`:
 - `VIDEO_DIR`: Video source directory (default: `./videos`)
 - `OUTPUT_DIR`: Transcription output directory (default: `./output`)
 - `TRANSLATED_DIR`: Translation output directory (default: `./translated`)
@@ -144,7 +158,8 @@ Uses an LLM API to translate subtitles and supports:
 - Custom models and API endpoints
 - Automatic retry with exponential backoff on API failures
 
-### scripts/run.sh
+### scripts/run.sh / scripts/run.ps1
 
 One-command runner that executes the transcription and translation pipeline automatically.
+Use `run.sh` on macOS/Linux and `run.ps1` on Windows (PowerShell).
 Paths and target language are configurable via environment variables.

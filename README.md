@@ -10,14 +10,15 @@ Automatically detect the source language from video audio, transcribe it into ti
 - **Flexible translation** — translate subtitles to any target language via configurable LLM API
 - **Bilingual output** — generate source + target bilingual `.srt` files
 - **Batch processing** — point at a directory and process all videos in one go
-- **One-command pipeline** — `run.sh` chains transcription and translation together
+- **One-command pipeline** — `run.sh` (macOS/Linux) or `run.ps1` (Windows) chains transcription and translation together
+- **Cross-platform** — works on macOS, Linux, and Windows
 
 ## Prerequisites
 
-| Dependency | Install |
-|-----------|---------|
-| Python 3.9+ | [python.org](https://www.python.org/downloads/) |
-| ffmpeg | `brew install ffmpeg` (macOS) / `sudo apt install ffmpeg` (Linux) |
+| Dependency | macOS | Linux | Windows |
+|-----------|-------|-------|---------|
+| Python 3.9+ | `brew install python` | `apt install python3` | [python.org](https://www.python.org/downloads/) |
+| ffmpeg | `brew install ffmpeg` | `sudo apt install ffmpeg` | `choco install ffmpeg` or `scoop install ffmpeg` |
 
 ## Resource Requirements
 
@@ -44,6 +45,8 @@ python3 scripts/transcribe.py "/path/to/video.mp4" -o ./output -m small
 export OPENAI_API_KEY="your-api-key"
 python3 scripts/translate.py ./output -o ./translated
 ```
+
+> **Windows note**: use `python` instead of `python3`, and set environment variables with `$env:OPENAI_API_KEY="your-api-key"` in PowerShell.
 
 ## Usage
 
@@ -85,11 +88,22 @@ When neither `--bilingual` nor `--target-only` is specified, both are generated.
 
 ### Full Pipeline
 
+**macOS / Linux:**
+
 ```bash
 VIDEO_DIR="/path/to/videos" ./scripts/run.sh
 
 # Customize target language and output paths
 VIDEO_DIR="/path/to/videos" TARGET_LANG=en OUTPUT_DIR=./out TRANSLATED_DIR=./trans ./scripts/run.sh
+```
+
+**Windows (PowerShell):**
+
+```powershell
+$env:VIDEO_DIR="C:\path\to\videos"; .\scripts\run.ps1
+
+# Customize target language and output paths
+$env:VIDEO_DIR="C:\path\to\videos"; $env:TARGET_LANG="en"; .\scripts\run.ps1
 ```
 
 | Variable | Default | Description |
@@ -133,7 +147,8 @@ video-subtitle-generator/
 └── scripts/
     ├── transcribe.py       # WhisperX transcription
     ├── translate.py        # LLM-based translation
-    └── run.sh              # One-command pipeline runner
+    ├── run.sh              # Pipeline runner (macOS / Linux)
+    └── run.ps1             # Pipeline runner (Windows PowerShell)
 ```
 
 ## License

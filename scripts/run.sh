@@ -21,9 +21,14 @@ echo -e "${GREEN}  WhisperX Subtitle Generation + Translation Tool${NC}"
 echo -e "${GREEN}=================================${NC}"
 echo ""
 
-# Check dependencies
-if ! command -v python3 &> /dev/null; then
-    echo -e "${RED}❌ python3 not found${NC}"
+# Locate Python 3
+PYTHON=""
+if command -v python3 &> /dev/null; then
+    PYTHON="python3"
+elif command -v python &> /dev/null && python --version 2>&1 | grep -q "Python 3"; then
+    PYTHON="python"
+else
+    echo -e "${RED}❌ python3 / python not found${NC}"
     exit 1
 fi
 
@@ -41,7 +46,7 @@ mkdir -p "$TRANSLATED_DIR"
 echo -e "${YELLOW}🎬 Step 1: Transcribe video audio into subtitles${NC}"
 echo ""
 
-python3 "$SCRIPT_DIR/transcribe.py" "$VIDEO_DIR" -o "$OUTPUT_DIR" -m medium
+$PYTHON "$SCRIPT_DIR/transcribe.py" "$VIDEO_DIR" -o "$OUTPUT_DIR" -m medium
 
 echo ""
 echo -e "${GREEN}✅ Transcription completed${NC}"
@@ -56,7 +61,7 @@ if [ -z "$OPENAI_API_KEY" ]; then
     echo "   To enable translation, run: export OPENAI_API_KEY=your_key"
     echo ""
 else
-    python3 "$SCRIPT_DIR/translate.py" "$OUTPUT_DIR" -o "$TRANSLATED_DIR" \
+    $PYTHON "$SCRIPT_DIR/translate.py" "$OUTPUT_DIR" -o "$TRANSLATED_DIR" \
         -t "$TARGET_LANG" --bilingual --target-only
     echo ""
     echo -e "${GREEN}✅ Translation completed${NC}"
