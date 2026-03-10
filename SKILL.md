@@ -116,18 +116,18 @@ When neither `--bilingual` nor `--target-only` is specified, both are generated.
 ### 5. Run the full pipeline
 
 ```bash
-# macOS / Linux
-VIDEO_DIR="/path/to/videos" ./scripts/run.sh
+python3 scripts/run.py
 
-# Windows (PowerShell)
-$env:VIDEO_DIR="C:\path\to\videos"; .\scripts\run.ps1
+# Customize via environment variables
+VIDEO_DIR="/path/to/videos" TARGET_LANG=en python3 scripts/run.py
 ```
 
-Environment variables for `run.sh` / `run.ps1`:
+Environment variables for `run.py`:
 - `VIDEO_DIR`: Video source directory (default: `./videos`)
 - `OUTPUT_DIR`: Transcription output directory (default: `./output`)
 - `TRANSLATED_DIR`: Translation output directory (default: `./translated`)
 - `TARGET_LANG`: Target language code (default: `zh`)
+- `WHISPER_MODEL`: Whisper model size (default: `medium`)
 
 ## Model selection
 
@@ -165,8 +165,7 @@ Uses an LLM API to translate subtitles and supports:
 - Custom models and API endpoints
 - Automatic retry with exponential backoff on API failures
 
-### scripts/run.sh / scripts/run.ps1
+### scripts/run.py
 
-One-command runner that executes the transcription and translation pipeline automatically.
-Use `run.sh` on macOS/Linux and `run.ps1` on Windows (PowerShell).
-Paths and target language are configurable via environment variables.
+Cross-platform one-command runner that executes the transcription and translation pipeline automatically.
+Paths, target language, and model size are configurable via environment variables.

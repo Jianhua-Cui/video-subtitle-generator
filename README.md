@@ -10,8 +10,8 @@ Automatically detect the source language from video audio, transcribe it into ti
 - **Flexible translation** — translate subtitles to any target language via configurable LLM API
 - **Bilingual output** — generate source + target bilingual `.srt` files
 - **Batch processing** — point at a directory and process all videos in one go
-- **One-command pipeline** — `run.sh` (macOS/Linux) or `run.ps1` (Windows) chains transcription and translation together
-- **Cross-platform** — works on macOS, Linux, and Windows
+- **One-command pipeline** — `run.py` chains transcription and translation together
+- **Cross-platform** — works on macOS, Linux, and Windows with no platform-specific scripts
 
 ## Prerequisites
 
@@ -88,22 +88,11 @@ When neither `--bilingual` nor `--target-only` is specified, both are generated.
 
 ### Full Pipeline
 
-**macOS / Linux:**
-
 ```bash
-VIDEO_DIR="/path/to/videos" ./scripts/run.sh
+python3 scripts/run.py
 
-# Customize target language and output paths
-VIDEO_DIR="/path/to/videos" TARGET_LANG=en OUTPUT_DIR=./out TRANSLATED_DIR=./trans ./scripts/run.sh
-```
-
-**Windows (PowerShell):**
-
-```powershell
-$env:VIDEO_DIR="C:\path\to\videos"; .\scripts\run.ps1
-
-# Customize target language and output paths
-$env:VIDEO_DIR="C:\path\to\videos"; $env:TARGET_LANG="en"; .\scripts\run.ps1
+# Customize via environment variables
+VIDEO_DIR="/path/to/videos" TARGET_LANG=en python3 scripts/run.py
 ```
 
 | Variable | Default | Description |
@@ -112,6 +101,7 @@ $env:VIDEO_DIR="C:\path\to\videos"; $env:TARGET_LANG="en"; .\scripts\run.ps1
 | `OUTPUT_DIR` | `./output` | Transcription output directory |
 | `TRANSLATED_DIR` | `./translated` | Translation output directory |
 | `TARGET_LANG` | `zh` | Target language code |
+| `WHISPER_MODEL` | `medium` | Whisper model size |
 
 ## Model Selection
 
@@ -147,8 +137,7 @@ video-subtitle-generator/
 └── scripts/
     ├── transcribe.py       # WhisperX transcription
     ├── translate.py        # LLM-based translation
-    ├── run.sh              # Pipeline runner (macOS / Linux)
-    └── run.ps1             # Pipeline runner (Windows PowerShell)
+    └── run.py              # Cross-platform pipeline runner
 ```
 
 ## License
