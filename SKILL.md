@@ -44,6 +44,11 @@ Before running, confirm the user is aware of the following costs:
 
 **Always confirm with the user before installing packages or downloading models**, as these operations consume storage and bandwidth.
 
+**Translation requires an LLM API and will incur costs.** Before executing the translation step:
+1. Ask the user for the API provider, key, and base URL — or present any auto-discovered configuration for review
+2. Inform the user that translation calls a remote LLM and will consume tokens (i.e. real money)
+3. **Do NOT proceed with translation until the user explicitly confirms the provider and acknowledges the cost**
+
 ## Usage
 
 ### 1. Environment setup
@@ -85,6 +90,8 @@ python3 scripts/transcribe.py "/path/to/video/folder" -o ./output -m small
 ```
 
 ### 4. Translate subtitles
+
+> **Cost warning**: This step calls a remote LLM API. Ensure the user has confirmed the API provider, key, and billing awareness before running.
 
 ```bash
 # Translate to Chinese (default)
